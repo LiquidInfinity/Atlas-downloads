@@ -125,7 +125,7 @@ async function initialize() {
   }
   // A fresh sign-in request must offer account choice even if the browser kept
   // a session from a different Atlas account. Callback URLs are handled above.
-  if (Clerk.user && Clerk.session) await Clerk.signOut();
+  if (Clerk.user && Clerk.session) { await Clerk.signOut({redirectUrl:location.href}); return; }
   $('google').disabled = false; $('email-button').disabled = false;
 }
 $('email-form').addEventListener('submit',startEmail);

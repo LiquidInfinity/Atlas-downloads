@@ -23,12 +23,12 @@ async function initialize() {
   await new Promise((resolve,reject)=>{script.onload=resolve;script.onerror=()=>reject(new Error('Could not load ATLAS sign-in.'));document.head.append(script)});
   await Clerk.load({signInUrl:location.origin+'/sign-in.html'});
   if (params.get('atlas_account_choice') !== 'complete') {
-    if (Clerk.session) await Clerk.signOut();
     const chosen = new URL(location.href);
     chosen.searchParams.set('atlas_account_choice','complete');
     const signIn = new URL('/sign-in.html',location.origin);
     signIn.searchParams.set('return_to',chosen.href);
-    location.replace(signIn);
+    if (Clerk.session) await Clerk.signOut({redirectUrl:signIn.href});
+    else location.replace(signIn);
     return;
   }
   if (!Clerk.user || !Clerk.session) {
