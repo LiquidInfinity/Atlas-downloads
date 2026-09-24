@@ -22,6 +22,15 @@ async function initialize() {
   script.dataset.clerkPublishableKey = window.ATLAS_CLERK_PUBLISHABLE_KEY;
   await new Promise((resolve,reject)=>{script.onload=resolve;script.onerror=()=>reject(new Error('Could not load ATLAS sign-in.'));document.head.append(script)});
   await Clerk.load({signInUrl:location.origin+'/sign-in.html'});
+  if (params.get('atlas_account_choice') !== 'complete') {
+    if (Clerk.session) await Clerk.signOut();
+    const chosen = new URL(location.href);
+    chosen.searchParams.set('atlas_account_choice','complete');
+    const signIn = new URL('/sign-in.html',location.origin);
+    signIn.searchParams.set('return_to',chosen.href);
+    location.replace(signIn);
+    return;
+  }
   if (!Clerk.user || !Clerk.session) {
     const next = new URL('/sign-in.html',location.origin);
     next.searchParams.set('redirect_url',location.href);
@@ -42,7 +51,7 @@ async function initialize() {
   const form = $('consent-form');
   form.action = Clerk.oauthApplication.buildConsentActionUrl({clientId});
   for (const [key,value] of params) {
-    if (key === 'consented' || key === 'organization_id') continue;
+    if (key === 'consented' || key === 'organization_id' || key === 'atlas_account_choice') continue;
     const input = document.createElement('input');
     input.type = 'hidden'; input.name = key; input.value = value;
     form.append(input);
