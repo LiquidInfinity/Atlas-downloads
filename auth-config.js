@@ -1,0 +1,1 @@
+window.ATLAS_CLERK_PUBLISHABLE_KEY="pk_live_Y2xlcmsuYXRsYXMucm94YXMuaW8k";
