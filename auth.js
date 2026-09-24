@@ -101,7 +101,7 @@ async function sendLink() {
 }
 async function google() {
   await busy($('google'),async () => {
-    await Clerk.client.signIn.authenticateWithRedirect({strategy:'oauth_google',redirectUrl:location.origin+'/sign-in.html?oauth_callback=1',redirectUrlComplete:returnTo});
+    await Clerk.client.signIn.authenticateWithRedirect({strategy:'oauth_google',oidcPrompt:'select_account',redirectUrl:location.origin+'/sign-in.html?oauth_callback=1',redirectUrlComplete:returnTo});
   });
 }
 async function initialize() {
@@ -123,7 +123,9 @@ async function initialize() {
     const result = await Clerk.handleEmailLinkVerification({redirectUrlComplete:returnTo});
     if (result?.createdSessionId) { await signedIn(result.createdSessionId); return; }
   }
-  if (Clerk.user && Clerk.session) { await signedIn(Clerk.session.id); return; }
+  // A fresh sign-in request must offer account choice even if the browser kept
+  // a session from a different Atlas account. Callback URLs are handled above.
+  if (Clerk.user && Clerk.session) await Clerk.signOut();
   $('google').disabled = false; $('email-button').disabled = false;
 }
 $('email-form').addEventListener('submit',startEmail);
