@@ -32,8 +32,9 @@ function finish() { location.assign(returnTo); }
 async function signedIn(sessionId) {
   await Clerk.setActive({session:sessionId});
   if (Clerk.session?.currentTask) throw new Error('Your account needs another verification step. Contact ATLAS support.');
-  view('ready','You’re signed in','Your ATLAS account is ready.');
-  $('ready-message').textContent = `Signed in as ${Clerk.user?.primaryEmailAddress?.emailAddress || email || 'your account'}.`;
+  const displayName = Clerk.user?.fullName || [Clerk.user?.firstName,Clerk.user?.lastName].filter(Boolean).join(' ');
+  view('ready',displayName ? `Welcome, ${displayName}.` : 'You’re signed in','Your projects and playbooks are ready in Atlas.');
+  $('ready-message').textContent = Clerk.user?.primaryEmailAddress?.emailAddress || email || '';
   if (returnTo !== new URL('/',location.origin).href) finish();
 }
 async function startEmail(event) {
@@ -46,7 +47,7 @@ async function startEmail(event) {
     } catch (error) {
       const code = error?.errors?.[0]?.code;
       if (!['form_identifier_not_found','form_identifier_exists','identifier_not_found'].includes(code)) throw error;
-      view('new-user','Create your ATLAS account',`Enter the name you want ATLAS to show for ${email}.`);
+      view('new-user','What’s your name?',`We’ll use this name for ${email}.`);
       return;
     }
     if (signIn.status === 'complete') { await signedIn(signIn.createdSessionId); return; }
@@ -88,7 +89,10 @@ async function sendLink() {
     const factor = signIn.supportedFirstFactors?.find(f => f.strategy === 'email_link');
     if (!factor?.emailAddressId) throw new Error('Email link sign-in is unavailable for this address.');
     const { startEmailLinkFlow } = signIn.createEmailLinkFlow();
-    const flow = startEmailLinkFlow({redirectUrl:location.origin+'/sign-in.html?email_link=1'});
+    const linkReturn = new URL('/sign-in.html',location.origin);
+    linkReturn.searchParams.set('email_link','1');
+    linkReturn.searchParams.set('return_to',returnTo);
+    const flow = startEmailLinkFlow({redirectUrl:linkReturn.href});
     $('sent-message').textContent = `We sent a sign-in link to ${email}. Open it on this computer.`;
     const result = await flow;
     if (result.status === 'complete' && result.createdSessionId) await signedIn(result.createdSessionId);
