@@ -1,1 +1,53 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in — ATLAS</title><link rel="stylesheet" href="/style.css"><style>.auth{max-width:470px;margin:7vh auto 12vh;padding:35px;border:1px solid #ffffff24;border-radius:20px;background:#111421e8;box-shadow:0 25px 100px #0008}.auth h1{font-size:38px;margin:12px 0}.auth label{display:block;margin:22px 0 8px;color:#e6e8f3;font-size:14px;font-weight:600}.auth input{width:100%;padding:13px 14px;border:1px solid #ffffff35;border-radius:10px;background:#080a12;color:white;font:inherit}.auth input:focus{outline:2px solid #aaa6ff;outline-offset:2px}.auth button{width:100%;padding:13px;border:0;border-radius:10px;background:#dcd8ff;color:#171226;font:inherit;font-weight:700;cursor:pointer;margin-top:18px}.auth button.secondary{background:#ffffff15;color:#fff;border:1px solid #ffffff2d}.auth button:disabled{opacity:.55;cursor:wait}.auth p{font-size:14px}.auth .error{min-height:20px;color:#ffb0b8}.auth .hint{color:#aeb3c6}.auth [hidden]{display:none!important}.auth .name-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.auth .name-fields label{margin-top:0}.auth .back{background:none;border:0;color:#b7b5ff;text-align:left;padding:0;margin-top:20px;width:auto;font-size:14px}@media(max-width:550px){.auth{margin:5vh 16px 10vh;padding:25px}}</style><script src="/auth-config.js" defer></script><script src="/auth.js" defer></script></head><body><header class="wrap nav"><a class="brand" href="/">ATLAS</a><nav class="navlinks" aria-label="Main navigation"><a href="/privacy.html">Privacy</a><a href="mailto:braziel.jones@gmail.com">Support</a></nav></header><main class="auth"><p class="eyebrow">Your ATLAS account</p><h1 id="title">Sign in to ATLAS</h1><p class="hint" id="description">Use your email or Google account. After the first sign-in, your computer can unlock ATLAS with its native security.</p><p class="error" role="alert" id="error"></p><section id="identity"><button type="button" class="secondary" id="google">Continue with Google</button><form id="email-form"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" required><button type="submit" id="email-button">Continue with email</button></form></section><section id="new-user" hidden><form id="new-user-form"><div class="name-fields"><label for="first-name">First name<input id="first-name" autocomplete="given-name" required></label><label for="last-name">Last name<input id="last-name" autocomplete="family-name" required></label></div><button type="submit">Create account and send code</button></form></section><section id="verify" hidden><p class="hint" id="sent-message"></p><form id="code-form"><label for="code">Email code</label><input id="code" inputmode="numeric" autocomplete="one-time-code" required><button type="submit">Verify and continue</button></form><button type="button" class="secondary" id="email-link">Send me a sign-in link</button></section><section id="ready" hidden><p id="ready-message"></p><button type="button" id="continue">Continue to ATLAS</button></section><button type="button" class="back" id="back" hidden>Use another email</button></main><footer class="wrap"><span>© 2026 ATLAS</span><span><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></span></footer></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Sign in to ATLAS</title>
+  <link rel="stylesheet" href="/auth-style.css">
+  <script src="/auth-config.js" defer></script>
+  <script src="/auth.js" defer></script>
+</head>
+<body class="startup">
+  <main class="welcome onboarding">
+    <img src="/atlas-logo.svg" alt="Atlas" class="welcome-logo">
+    <p class="eyebrow">ATLAS</p>
+    <h1 id="title">Sign in to Atlas.</h1>
+    <p id="description">Use your verified email or Google account.</p>
+    <p class="error" role="alert" id="error"></p>
+    <section id="identity">
+      <button type="button" id="google" class="secondary">Continue with Google</button>
+      <form id="email-form">
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email" required>
+        <button type="submit" id="email-button">Continue with email <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+    <section id="new-user" hidden>
+      <form id="new-user-form">
+        <div class="name-fields">
+          <label for="first-name">First name<input id="first-name" autocomplete="given-name" required></label>
+          <label for="last-name">Last name<input id="last-name" autocomplete="family-name" required></label>
+        </div>
+        <button type="submit">Create account and send code <span aria-hidden="true">↗</span></button>
+      </form>
+    </section>
+    <section id="verify" hidden>
+      <p id="sent-message"></p>
+      <form id="code-form">
+        <label for="code">Email code</label>
+        <input id="code" inputmode="numeric" autocomplete="one-time-code" required>
+        <button type="submit">Verify and continue <span aria-hidden="true">↗</span></button>
+      </form>
+      <button type="button" class="secondary" id="email-link">Send me a sign-in link</button>
+    </section>
+    <section id="ready" hidden>
+      <p id="ready-message"></p>
+      <button type="button" id="continue">Continue to Atlas <span aria-hidden="true">↗</span></button>
+    </section>
+    <button type="button" class="back" id="back" hidden>Use another email</button>
+    <p class="legal"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Connect ATLAS Desktop</title>
+  <link rel="stylesheet" href="/auth-style.css">
+  <script src="/auth-config.js" defer></script>
+  <script src="/oauth-consent.js" defer></script>
+</head>
+<body class="startup">
+  <main class="welcome onboarding">
+    <img src="/atlas-logo.svg" alt="Atlas" class="welcome-logo">
+    <p class="eyebrow">ATLAS</p>
+    <h1 id="title">Connect Atlas Desktop.</h1>
+    <p id="description">Review this account connection before continuing.</p>
+    <p class="error" role="alert" id="error"></p>
+    <section id="consent" hidden>
+      <p id="account"></p>
+      <p id="app-name"></p>
+      <p id="client-id"></p>
+      <p>Atlas Desktop will receive your account name and verified email and can keep you signed in on this device.</p>
+      <ul id="scopes"></ul>
+      <p id="destination"></p>
+      <details><summary>View full return address</summary><code id="redirect-uri"></code></details>
+      <form id="consent-form" method="post">
+        <div class="consent-actions">
+          <button type="submit" name="consented" value="false" class="secondary">Deny</button>
+          <button type="submit" name="consented" value="true">Allow</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
