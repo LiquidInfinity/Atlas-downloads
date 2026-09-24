@@ -30,7 +30,7 @@ async function initialize() {
   }
   const data = await Clerk.oauthApplication.getConsentInfo({oauthClientId:clientId,scope});
   $('account').textContent = `Signed in as ${Clerk.user.primaryEmailAddress?.emailAddress || Clerk.user.id}.`;
-  $('app-name').textContent = `${data.oauthApplicationName || 'Atlas Desktop'} requests access to your ATLAS account.`;
+  $('app-name').textContent = `${data.oauthApplicationName || 'Atlas Desktop'} is connecting to ${Clerk.user.primaryEmailAddress?.emailAddress || 'your email'}.`;
   $('client-id').textContent = `Client ID: ${data.clientId || clientId}`;
   $('redirect-uri').textContent = redirectUri;
   $('destination').textContent = `After you allow or deny access, you will return to the ATLAS desktop app on this computer.`;

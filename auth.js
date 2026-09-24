@@ -2,6 +2,7 @@
 const $ = id => document.getElementById(id);
 const sections = ['identity','new-user','verify','ready'];
 const params = new URLSearchParams(location.search);
+const nativeEmail = params.has('native_email');
 const requested = params.get('redirect_url') || params.get('return_to') || sessionStorage.getItem('atlas-auth-return');
 function safeReturn(raw) {
   if (!raw) return '/';
@@ -104,6 +105,11 @@ async function google() {
   });
 }
 async function initialize() {
+  if (nativeEmail) {
+    $('google').hidden = true;
+    $('email-link').hidden = true;
+    $('description').textContent = 'Enter your email. We’ll send a code you can use right here in Atlas.';
+  }
   if (!window.ATLAS_CLERK_PUBLISHABLE_KEY) throw new Error('ATLAS sign-in is not configured.');
   const script = document.createElement('script');
   script.src = 'https://clerk.atlas.roxas.io/npm/@clerk/clerk-js@6/dist/clerk.browser.js';
