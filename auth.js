@@ -128,7 +128,7 @@ async function initialize() {
   if (Clerk.user && Clerk.session) { await Clerk.signOut({redirectUrl:location.href}); return; }
   // Desktop already chose Google in ATLAS. Clerk sends its OAuth continuation
   // through this page, so start Google directly instead of asking again.
-  if (params.has('redirect_url') && new URL(returnTo).pathname === '/oauth/authorize/continue') {
+  if (params.has('redirect_url') && ['/oauth/authorize','/oauth/authorize/continue'].includes(new URL(returnTo).pathname)) {
     await google();
     return;
   }
