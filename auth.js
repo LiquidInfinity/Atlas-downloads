@@ -126,6 +126,12 @@ async function initialize() {
   // A fresh sign-in request must offer account choice even if the browser kept
   // a session from a different Atlas account. Callback URLs are handled above.
   if (Clerk.user && Clerk.session) { await Clerk.signOut({redirectUrl:location.href}); return; }
+  // Desktop already chose Google in ATLAS. Clerk sends its OAuth continuation
+  // through this page, so start Google directly instead of asking again.
+  if (params.has('redirect_url') && new URL(returnTo).pathname === '/oauth/authorize/continue') {
+    await google();
+    return;
+  }
   $('google').disabled = false; $('email-button').disabled = false;
 }
 $('email-form').addEventListener('submit',startEmail);
